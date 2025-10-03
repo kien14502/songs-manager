@@ -30,6 +30,7 @@ const DashboardLayout: React.FC<PropsWithChildren> = ({ children }) => {
           ))}
         </div>
       </div>
+      <div>test</div>
       <div className="ml-[280px] p-6">{children}</div>
     </div>
   );

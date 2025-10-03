@@ -20,7 +20,7 @@ export const getLessonsByCategory = async (
   categoryId: string
 ): Promise<PianoLesson[]> => {
   const response = await axiosInstance.get(`/lessons/category/${categoryId}`);
-  return response.data;
+  return response.data ?? [];
 };
 
 // GET /lessons/{id} → Lấy thông tin lesson
