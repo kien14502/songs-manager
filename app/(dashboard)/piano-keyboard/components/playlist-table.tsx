@@ -12,7 +12,6 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -28,9 +27,16 @@ import { useState } from "react";
 type Props<T> = {
   data: T[];
   columns: ColumnDef<T>[];
+  filterBy?: keyof T;
+  placeholderFilter?: string;
 };
 
-const PlaylistTable = <T,>({ data, columns }: Props<T>) => {
+const PlaylistTable = <T,>({
+  data,
+  columns,
+  filterBy,
+  placeholderFilter,
+}: Props<T>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -58,10 +64,15 @@ const PlaylistTable = <T,>({ data, columns }: Props<T>) => {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder={placeholderFilter}
+          value={
+            (table.getColumn(String(filterBy))?.getFilterValue() as string) ??
+            ""
+          }
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table
+              .getColumn(String(filterBy))
+              ?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

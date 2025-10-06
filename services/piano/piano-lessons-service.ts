@@ -1,5 +1,5 @@
 import axiosInstance from "@/config/axios";
-import { PianoLesson } from "@/types/piano";
+import { CreateSongPayload, PianoLesson } from "@/types/piano";
 
 // GET /lessons → Lấy tất cả lessons
 export const getAllLessons = async (): Promise<PianoLesson[]> => {
@@ -9,7 +9,7 @@ export const getAllLessons = async (): Promise<PianoLesson[]> => {
 
 // POST /lessons → Tạo lesson mới
 export const createLesson = async (
-  lesson: PianoLesson
+  lesson: CreateSongPayload
 ): Promise<PianoLesson> => {
   const response = await axiosInstance.post("/lessons", lesson);
   return response.data;

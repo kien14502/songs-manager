@@ -13,6 +13,12 @@ import {
   getLessonsByCategory,
   updateLesson,
 } from "@/services/piano/piano-lessons-service";
+import {
+  getListMidi,
+  getListThumbnail,
+  uploadMidiFile,
+  uploadThumbnail,
+} from "@/services/piano/piano-upload-service";
 import { PianoCategory, PianoLesson } from "@/types/piano";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
@@ -114,6 +120,41 @@ export const useDeleteLesson = () => {
     mutationFn: deleteLesson,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lessons"] });
+    },
+  });
+};
+
+export const useGetListThumbnail = () => {
+  return useQuery({
+    queryKey: ["thumbnails"],
+    queryFn: getListThumbnail,
+    staleTime: 1000 * 60 * 5, // cache time :5p
+  });
+};
+
+export const useUploadThumbnail = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: uploadThumbnail,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["thumbnails"] });
+    },
+  });
+};
+
+export const useGetListMidi = () => {
+  return useQuery({
+    queryKey: ["midis"],
+    queryFn: getListMidi,
+    staleTime: 1000 * 60 * 5, // cache time :5p
+  });
+};
+export const useUploadMidi = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: uploadMidiFile,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["midis"] });
     },
   });
 };

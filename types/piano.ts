@@ -21,3 +21,18 @@ export interface PianoLesson {
   scrollPosition: number;
   country: string;
 }
+export interface CreateSongPayload {
+  artist: string;
+  categoryId: string;
+  country: string;
+  isFree: boolean;
+  midiFile: string;
+  name: string;
+  scrollPosition: number;
+  star: number;
+  thumbnail: string;
+}
+
+export interface Thumbnail {
+  name: string;
+}

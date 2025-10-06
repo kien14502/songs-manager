@@ -1,10 +1,10 @@
 "use client";
-
-import { usePagination } from "@/hooks/use-pagination";
-import { useLessonsByCategory } from "@/hooks/usePianoQuery";
+import { useCategory, useLessonsByCategory } from "@/hooks/usePianoQuery";
 import { Params } from "@/types/params";
-import { PianoLesson } from "@/types/piano";
 import { use } from "react";
+import AddSongPopup from "../components/add-song-popup";
+import PlaylistTable from "../components/playlist-table";
+import { columnsLessons } from "../components/columns/lesson-column";
 
 type Props = {
   params: Params<{ id: string }>;
@@ -13,15 +13,26 @@ type Props = {
 const PianoKeyboardPage = ({ params }: Props) => {
   const { id } = use(params);
   const { data: lessons, isPending } = useLessonsByCategory(id);
-  const { currentData, page, totalPages, nextPage, prevPage, setPage } =
-    usePagination<PianoLesson>(lessons || [], 5);
-  console.log(currentData);
+  const { data: category } = useCategory(id);
 
   if (isPending) {
     return <div>Loading...</div>;
   }
 
-  return <div>{currentData.map((lesson) => lesson.name).join(", ")}</div>;
+  return (
+    <>
+      <div className="sticky top-0 bg-white z-10 w-full flex items-center justify-between py-4  border-b">
+        <h1 className="text-2xl font-bold">{category?.name}</h1>
+        <AddSongPopup />
+      </div>
+      <PlaylistTable
+        data={lessons || []}
+        columns={columnsLessons}
+        filterBy="name"
+        placeholderFilter="Search by name..."
+      />
+    </>
+  );
 };
 
 export default PianoKeyboardPage;

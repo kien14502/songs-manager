@@ -19,7 +19,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
     >
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 px-4">
+        <header className="flex h-16 shrink-0 items-center gap-2 px-4 sticky top-0 bg-background z-50">
           <SidebarTrigger className="-ml-1" />
           <Separator
             orientation="vertical"
