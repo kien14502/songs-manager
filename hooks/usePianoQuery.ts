@@ -16,6 +16,7 @@ import {
 import {
   getListMidi,
   getListThumbnail,
+  readMidiFile,
   uploadMidiFile,
   uploadThumbnail,
 } from "@/services/piano/piano-upload-service";
@@ -149,6 +150,7 @@ export const useGetListMidi = () => {
     staleTime: 1000 * 60 * 5, // cache time :5p
   });
 };
+
 export const useUploadMidi = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -158,3 +160,10 @@ export const useUploadMidi = () => {
     },
   });
 };
+
+export const useReadMidiFile = (path: string) =>
+  useQuery({
+    queryKey: ["midi", path],
+    queryFn: () => readMidiFile(path),
+    staleTime: 1000 * 60 * 5,
+  });

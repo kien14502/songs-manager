@@ -7,7 +7,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function checkCurrentRouter(pathname: string, currentPath: string) {
-  return pathname === currentPath;
+  const crPathname = pathname.split("/");
+
+  return crPathname.includes(currentPath.split("/")[1]);
 }
 
 export const mergeLinkThumbnail = (path: string) => {

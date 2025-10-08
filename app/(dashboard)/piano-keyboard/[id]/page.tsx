@@ -23,7 +23,7 @@ const PianoKeyboardPage = ({ params }: Props) => {
     <>
       <div className="sticky top-0 bg-white z-10 w-full flex items-center justify-between py-4  border-b">
         <h1 className="text-2xl font-bold">{category?.name}</h1>
-        <AddSongPopup />
+        <AddSongPopup categoryId={id} />
       </div>
       <PlaylistTable
         data={lessons || []}

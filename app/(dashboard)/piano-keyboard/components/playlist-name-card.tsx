@@ -10,7 +10,8 @@ import {
 import ConfirmDeletePlaylistPopup from "./confirm-delete-playlist-popup";
 import { useCreateCategory } from "@/hooks/usePianoQuery";
 import EditPlaylistPopup from "./edit-playlist-popup";
-import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { usePathname, useRouter } from "next/navigation";
 
 type Props = {
   category: PianoCategory;
@@ -18,18 +19,32 @@ type Props = {
 
 const PlaylistNameCard: React.FC<Props> = ({ category }) => {
   const { mutate: createCategory, isPending } = useCreateCategory();
+  const pathName = usePathname().split("/");
+  const router = useRouter();
 
   const handleDuplicate = () => createCategory(category.name + " Copy");
+  const onRedirect = () => router.push(`/piano-keyboard/${category.id}`);
+
+  const handleOpenModal = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
 
   return (
-    <div className="py-4 px-2 hover:bg-secondary">
-      <div className="flex items-center justify-between">
-        <Link href={`/piano-keyboard/${category.id}`}>
-          <span className="font-semibold">{category.name}</span>
-        </Link>
-
+    <div
+      onClick={onRedirect}
+      className={cn(
+        "py-4 px-4 cursor-pointer",
+        pathName.includes(category.id) ? "bg-primary/50" : ""
+      )}
+    >
+      <div className="flex items-center justify-between relative">
+        <span className="font-medium">{category.name}</span>
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger
+            className="absolute -right-2"
+            asChild
+            onClick={handleOpenModal}
+          >
             <Button variant={"ghost"} size={"icon"}>
               <Ellipsis className="rotate-90" size={20} />
             </Button>

@@ -36,3 +36,8 @@ export interface CreateSongPayload {
 export interface Thumbnail {
   name: string;
 }
+
+export interface MidiFile {
+  filePath: string;
+  message: string;
+}

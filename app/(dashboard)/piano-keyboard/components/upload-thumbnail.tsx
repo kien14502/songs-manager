@@ -12,7 +12,12 @@ import { CircleX, ImageUp, Loader } from "lucide-react";
 import Image from "next/image";
 import { useState, DragEvent, useMemo, useRef } from "react";
 
-const UploadThumbnail = () => {
+type Props = {
+  onChange: (imgUrl: string) => void;
+};
+
+const UploadThumbnail: React.FC<Props> = ({ onChange }) => {
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const { data: thumbnails } = useGetListThumbnail();
   const { mutate: uploadThumbnail, isPending } = useUploadThumbnail();
   const [isDragOver, setIsDragOver] = useState(false);
@@ -82,15 +87,19 @@ const UploadThumbnail = () => {
   const handleUpload = () => {
     if (!fileName) return;
     if (typeof fileName === "string") {
+      onChange(fileName);
     } else {
       uploadThumbnail(fileName, {
-        onSuccess(data) {},
+        onSuccess(data) {
+          onChange(data);
+        },
       });
     }
+    setOpenModal(false);
   };
 
   return (
-    <Dialog>
+    <Dialog open={openModal} onOpenChange={setOpenModal}>
       <DialogTrigger asChild>
         <Button className="mr-auto">
           <ImageUp />
