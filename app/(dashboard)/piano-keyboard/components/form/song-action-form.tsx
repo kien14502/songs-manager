@@ -22,12 +22,7 @@ type Props = {
   isPending: boolean;
 };
 
-const SongActionForm: React.FC<Props> = ({
-  mode,
-  onSubmit,
-  initialData,
-  isPending,
-}) => {
+const SongActionForm: React.FC<Props> = ({ mode, onSubmit, initialData, isPending }) => {
   const { mutate: uploadMidiFile } = useUploadMidi();
   const form = useForm<AddSongFormData>({
     resolver: zodResolver(addSongSchema),
@@ -40,6 +35,7 @@ const SongActionForm: React.FC<Props> = ({
       scrollPosition: 1,
       star: 1,
       thumbnail: "",
+      isGame: false,
     },
   });
 
@@ -57,10 +53,7 @@ const SongActionForm: React.FC<Props> = ({
 
   return (
     <Form {...form}>
-      <form
-        className="flex flex-col gap-4"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
+      <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormWrapper>
           <InputForm
             control={form.control}
@@ -85,10 +78,13 @@ const SongActionForm: React.FC<Props> = ({
           />
           <DropdownForm
             control={form.control}
-            name={"scrollPosition"}
-            label={"Scroll Position"}
-            placeholder={"Select scroll position"}
-            options={starOptions}
+            name={"isFree"}
+            label={"Free"}
+            placeholder={"Select free"}
+            options={[
+              { value: true, title: "Yes" },
+              { value: false, title: "No" },
+            ]}
           />
         </FormWrapper>
         <FormWrapper>

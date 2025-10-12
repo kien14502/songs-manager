@@ -9,6 +9,14 @@ export const addSongSchema = z.object({
   scrollPosition: z.number().int(),
   star: z.number().int(),
   thumbnail: z.string().nonempty(),
+  isGame: z.boolean(),
 });
 
 export type AddSongFormData = z.infer<typeof addSongSchema>;
+
+export const categorySchema = z.object({
+  name: z.string().min(2).max(50),
+  country: z.string().min(2).max(50),
+});
+
+export type CategorySchema = z.infer<typeof categorySchema>;

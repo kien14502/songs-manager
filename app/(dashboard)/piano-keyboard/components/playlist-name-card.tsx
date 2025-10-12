@@ -2,11 +2,7 @@
 import { PianoCategory } from "@/types/piano";
 import { Copy, Ellipsis, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import ConfirmDeletePlaylistPopup from "./confirm-delete-playlist-popup";
 import { useCreateCategory } from "@/hooks/usePianoQuery";
 import EditPlaylistPopup from "./edit-playlist-popup";
@@ -25,9 +21,7 @@ const PlaylistNameCard: React.FC<Props> = ({ category }) => {
   const handleDuplicate = () => createCategory(category.name + " Copy");
   const onRedirect = () => router.push(`/piano-keyboard/${category.id}`);
 
-  const handleOpenModal = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
+  const handleOpenModal = (e: React.MouseEvent) => e.stopPropagation();
 
   return (
     <div
@@ -38,13 +32,12 @@ const PlaylistNameCard: React.FC<Props> = ({ category }) => {
       )}
     >
       <div className="flex items-center justify-between relative">
-        <span className="font-medium">{category.name}</span>
+        <div>
+          <p className="font-medium">{category.name}</p>
+          <span>{category.country}</span>
+        </div>
         <Popover>
-          <PopoverTrigger
-            className="absolute -right-2"
-            asChild
-            onClick={handleOpenModal}
-          >
+          <PopoverTrigger className="absolute -right-2" asChild onClick={handleOpenModal}>
             <Button variant={"ghost"} size={"icon"}>
               <Ellipsis className="rotate-90" size={20} />
             </Button>

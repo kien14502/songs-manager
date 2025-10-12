@@ -3,6 +3,7 @@ export interface PianoCategory {
   name: string;
   createdAt: string;
   updatedAt: string;
+  country: string;
 }
 
 export interface PianoLesson {

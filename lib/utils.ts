@@ -16,3 +16,8 @@ export const mergeLinkThumbnail = (path: string) => {
   const rs = API_URL + "uploads/thumbnails/" + path;
   return rs;
 };
+
+export const splitCountry = (value?: string) => {
+  if (!value) return "";
+  return value.split(",");
+};

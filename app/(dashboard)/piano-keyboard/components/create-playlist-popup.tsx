@@ -11,7 +11,6 @@ import {
 import { useCreateCategory } from "@/hooks/usePianoQuery";
 import { Loader, Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -24,23 +23,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
-
-const formSchema = z.object({
-  name: z.string().min(2).max(50),
-});
+import { CategorySchema, categorySchema } from "@/types/add-song";
 
 const CreatePlaylistPopup = () => {
-  const [isOpenCreatePlaylistPopup, setIsOpenCreatePlaylistPopup] =
-    useState(false);
+  const [isOpenCreatePlaylistPopup, setIsOpenCreatePlaylistPopup] = useState(false);
   const { mutate: createCategory, isPending } = useCreateCategory();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-    },
+  const form = useForm<CategorySchema>({
+    resolver: zodResolver(categorySchema),
+    defaultValues: { name: "", country: "" },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) =>
+  const onSubmit = (data: CategorySchema) =>
     createCategory(data.name, {
       onSuccess: () => {
         toast.success("Create playlist successfully");
@@ -50,10 +43,7 @@ const CreatePlaylistPopup = () => {
     });
 
   return (
-    <Dialog
-      open={isOpenCreatePlaylistPopup}
-      onOpenChange={setIsOpenCreatePlaylistPopup}
-    >
+    <Dialog open={isOpenCreatePlaylistPopup} onOpenChange={setIsOpenCreatePlaylistPopup}>
       <DialogTrigger asChild>
         <Button size={"icon"} variant={"outline"}>
           <Plus size={16} />
@@ -62,9 +52,7 @@ const CreatePlaylistPopup = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create a New Playlist</DialogTitle>
-          <DialogDescription>
-            Please enter the name of your new playlist.
-          </DialogDescription>
+          <DialogDescription>Please enter the name of your new playlist.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -73,9 +61,22 @@ const CreatePlaylistPopup = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name playlist</FormLabel>
+                  <FormLabel>Name </FormLabel>
                   <FormControl>
                     <Input placeholder="Name playlist" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="country"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Country</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Country playlist" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
